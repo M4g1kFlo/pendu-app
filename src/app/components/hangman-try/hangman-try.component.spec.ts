@@ -15,7 +15,7 @@ describe('HangmanTryComponent', () => {
       providers:[HangmanService]
     });
     fixture = TestBed.createComponent(HangmanTryComponent);
-    hangService = TestBed.inject(HangmanService)
+    hangService = TestBed.inject(HangmanService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -51,14 +51,22 @@ describe('HangmanTryComponent', () => {
   });
 
   describe('Try a letter',() => {
+    beforeEach(() => {
+      const letterZButton = fixture.debugElement.queryAll(By.css('.letter'))[25]?.nativeElement as HTMLButtonElement;
+      letterZButton.click();
+    });
     
     it('should be disabled', () => {
-      const button = fixture.debugElement.queryAll(By.css(".letter"))[25];
-      button.triggerEventHandler('click', { preventDefault: () => {} });
+      const letterZButton = fixture.debugElement.queryAll(By.css('.letter'))[25]?.nativeElement as HTMLButtonElement;
       fixture.detectChanges();
-      console.log(button.nativeElement.disabled);
+      expect(letterZButton.disabled).toBeTrue();
+    });
+
+    it('tried letters should contain Z', () => {
+      fixture.detectChanges();
       expect(component.triedLetters).toContain("Z");
-      expect(button.nativeElement.disabled).toBeTruthy();
     });
   });
+
+  
 });
